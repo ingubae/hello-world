@@ -9,5 +9,5 @@ import (
 func main() {
 	fmt.Println("Hello World")
 	val := stringutil.Reverse("ABCDEF")
-	fmt.Println(va)
+	fmt.Println(val)
 }
