@@ -8,6 +8,6 @@ import (
 
 func main() {
 	fmt.Println("Hello World")
-	val := stringutil.Reverse("ABCDEF")
+	val := stringutil.Reverse("dlroW olleH")
 	fmt.Println(val)
 }
