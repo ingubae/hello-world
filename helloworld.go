@@ -1,6 +1,111 @@
 package main
 
+import (
+	"encoding/json"
+	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	"os"
+)
+
+//Member
+type Member struct {
+	Name   string
+	Age    int
+	Active bool
+}
+
+type Members struct {
+	Member []Member
+}
+
+func main() {
+	// XML file read ...
+	fp, err := os.Open("/home/igbae/go/src/github.com/ingubae/hello-world/test.xml")
+	if err != nil {
+		panic(err)
+	}
+	defer fp.Close()
+
+	data, err := ioutil.ReadAll(fp)
+
+	var members Members
+	err = xml.Unmarshal(data, &members)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(members)
+
+	// JSON encoding
+	jsonBytes, err := json.Marshal(members)
+	if err != nil {
+		panic(err)
+	}
+
+	// JSON file write ...
+	fo, err := os.Create("/home/igbae/go/src/github.com/ingubae/hello-world/test.json")
+	if err != nil {
+		panic(err)
+	}
+	defer fo.Close()
+
+	cnt, err := fo.Write(jsonBytes)
+	if err != nil {
+		panic(err)
+	}
+
+	str := string(jsonBytes[:cnt])
+	fmt.Println(str)
+
+	// Decoding...
+	var dMem Members
+	err = json.Unmarshal(jsonBytes, &dMem)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(dMem)
+}
+
+// JSON 사용
+/*
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Member struct {
+	Name   string
+	Age    int
+	Active bool
+}
+
+func main() {
+	// Encoding ...
+	mem := Member{"Alex", 10, true}
+
+	jsonBytes, err := json.Marshal(mem)
+	if err != nil {
+		panic(err)
+	}
+
+	jsonString := string(jsonBytes)
+	fmt.Println(jsonString)
+
+	// Decoding...
+	var dMem Member
+	err = json.Unmarshal(jsonBytes, &dMem)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(dMem.Name, dMem.Age, dMem.Active)
+}
+*/
+
 // Request object with JSON
+/*
 import (
 	"bytes"
 	"encoding/json"
@@ -42,6 +147,7 @@ func main() {
 		println(str)
 	}
 }
+*/
 
 // JSON data POST
 /*
